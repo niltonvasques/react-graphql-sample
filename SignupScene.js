@@ -11,14 +11,15 @@ import {
   View,
   Image,
   Button,
-  Alert
+  Alert,
+  TextInput
 } from 'react-native';
 
 import Logo from './Logo';
 
-export default class MainScene extends Component {
+export default class SignupScene extends Component {
   static get defaultProps() { 
-    return { title: 'MainScene', navigator: null };
+    return { navigator: null };
   }
 
   render() {
@@ -27,18 +28,21 @@ export default class MainScene extends Component {
         <View style={styles.logo}>
           <Logo style={styles.logoImage} />
         </View>
-
         <Text style={styles.welcome}>
-          Welcome to CrossOver Ticket System!
+          Create a new account 
         </Text>
-
-        <Text style={styles.instructions}>
-          To get started, sign in in the application, or create an account pressing sign up button.
-        </Text>
-
-        <Button onPress={this.onSignin.bind(this)} 
-          title="Sign in"
-          accessibilityLabel="Sign in into ticket system" />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          placeholder='Enter username'
+          />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          placeholder='Enter your email'
+          />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          placeholder='Enter a password'
+          />
         <Button 
           color="lightgreen"
           onPress={this.onSignup.bind(this)} 
@@ -47,11 +51,8 @@ export default class MainScene extends Component {
     );
   }
 
-  onSignin() {
-    this.props.navigator.push({ screen: 'SignupScene' });
-  }
   onSignup() {
-    this.props.navigator.push({ screen: 'SignupScene' });
+    this.props.navigator.push({ screen: 'RequestsScene' });
   }
 }
 
@@ -77,9 +78,6 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
     justifyContent: 'center',
-  },
-  signIn: {
-    flex: 1,
   },
   signUp: {
     color: 'steelblue',

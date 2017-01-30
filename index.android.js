@@ -7,21 +7,29 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Button,
-  Alert
+  Navigator
 } from 'react-native';
 
 import MainScene from './MainScene';
-
+import SignupScene from './SignupScene';
+import RequestsScene from './RequestsScene';
 
 export default class TicketSystem extends Component {
   render() {
     return (
-        <MainScene />
+      <Navigator 
+        initialRoute={{ screen: 'MainScene', index: 0 }}
+        renderScene={(route, nav) => {
+          switch(route.screen) {
+            case "MainScene":
+              return <MainScene navigator={nav} />
+            case "SignupScene":
+              return <SignupScene navigator={nav} />
+            case "RequestsScene":
+              return <RequestsScene navigator={nav} />
+          }
+        }}
+      />
     );
   }
 }
