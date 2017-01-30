@@ -29,12 +29,8 @@ export default class SignupScene extends Component {
           <Logo style={styles.logoImage} />
         </View>
         <Text style={styles.welcome}>
-          Create a new account 
+          Login 
         </Text>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder='Enter username'
-          />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter your email'
@@ -44,15 +40,14 @@ export default class SignupScene extends Component {
           placeholder='Enter a password'
           secureTextEntry={true}
           />
-        <Button 
-          color="lightgreen"
-          onPress={this.onSignup.bind(this)} 
-          title="Sign up" accessibilityLabel="Sign up into ticket system" />
+        <Button onPress={this.onSignin.bind(this)} 
+          title="Sign in"
+          accessibilityLabel="Sign in into ticket system" />
       </View>
     );
   }
 
-  onSignup() {
+  onSignin() {
     this.props.navigator.push({ screen: 'RequestsScene' });
   }
 }

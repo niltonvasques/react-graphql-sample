@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import MainScene from './MainScene';
+import SigninScene from './SigninScene';
 import SignupScene from './SignupScene';
 import RequestsScene from './RequestsScene';
 
@@ -23,6 +24,8 @@ export default class TicketSystem extends Component {
           switch(route.screen) {
             case "MainScene":
               return <MainScene navigator={nav} />
+            case "SigninScene":
+              return <SigninScene navigator={nav} />
             case "SignupScene":
               return <SignupScene navigator={nav} />
             case "RequestsScene":

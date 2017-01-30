@@ -48,7 +48,7 @@ export default class MainScene extends Component {
   }
 
   onSignin() {
-    this.props.navigator.push({ screen: 'SignupScene' });
+    this.props.navigator.push({ screen: 'SigninScene' });
   }
   onSignup() {
     this.props.navigator.push({ screen: 'SignupScene' });
