@@ -6,9 +6,8 @@ import { Alert, Navigator, Text, BackAndroid } from 'react-native';
 import MainScene from './MainScene';
 import { SigninSceneWithData } from './SigninScene';
 import { SignupSceneWithData } from './SignupScene';
-//import RequestsScene from './RequestsScene';
 import { RequestsSceneWithData } from './RequestsScene';
-//import { RequestSceneWithData } from './RequestScene';
+import { NewRequestSceneWithData } from './NewRequestScene';
 import RequestScene from './RequestScene';
 
 export default class RootComponent extends Component {
@@ -40,6 +39,8 @@ export default class RootComponent extends Component {
               return <RequestsSceneWithData navigator={nav} />
             case "RequestScene":
               return <RequestScene navigator={nav} request={route.data} />
+            case "NewRequestScene":
+              return <NewRequestSceneWithData navigator={nav} />
           }
         }}
         //navigationBar={
