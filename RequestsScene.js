@@ -16,6 +16,10 @@ import {
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { typography } from 'react-native-material-design-styles';
+
+const typographyStyle = StyleSheet.create(typography);
+
 class RequestsScene extends Component {
   constructor() { 
     super(); 
@@ -38,20 +42,27 @@ class RequestsScene extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
+        <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
           Requests
         </Text>
 
-       <ListView dataSource={this.state.dataSource}
-         renderRow={(rowData) => <Text>{rowData.id}</Text>}
-         />
+        <ListView dataSource={this.state.dataSource}
+          renderRow={(rowData) => (
+             <View style={{flexDirection: 'row'}} >
+               <Text style={styles.requests}>{rowData.id}</Text>
+               <Text style={styles.requests}>{rowData.title}</Text>
+             </View>
+            )
+          }
+          enableEmptySections={true}
+          />
       </View>
     );
   }
 }
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-const query = gql`query MyQuery { requests { id } }`;
+const query = gql`query MyQuery { requests { id, title } }`;
 
 export const RequestsSceneWithData = graphql(query)(RequestsScene);
 
@@ -64,6 +75,11 @@ const styles = StyleSheet.create({
   },
   welcome: {
     fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  requests: {
+    fontSize: 15,
     textAlign: 'center',
     margin: 10,
   },

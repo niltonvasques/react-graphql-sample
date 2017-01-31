@@ -23,7 +23,7 @@ export default class RootComponent extends Component {
             case "SignupScene":
               return <SignupScene navigator={nav} />
             case "RequestsScene":
-              return <RequestsSceneWithData />
+              return <RequestsSceneWithData navigator={nav} />
           }
         }}
       />
