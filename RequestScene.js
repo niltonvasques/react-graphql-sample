@@ -10,8 +10,7 @@ import {
   Text,
   View,
   ListView,
-  Alert,
-  TouchableHighlight
+  Alert
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
@@ -21,55 +20,30 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
-class RequestsScene extends Component {
+export default class RequestScene extends Component {
   constructor() { 
     super(); 
-    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
-    this.state = {
-      dataSource: ds.cloneWithRows([]),
-    };
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.data.loading) { return; }
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newProps.data.requests),
-    })
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
-          Requests
+          Request - {this.props.request.id}
         </Text>
-
-        <ListView dataSource={this.state.dataSource}
-          renderRow={(rowData) => (
-             <TouchableHighlight onPress={this.onListItemClick.bind(this, rowData)}>
-               <View style={{flexDirection: 'row'}} >
-                 <Text style={styles.requests}>{rowData.id}</Text>
-                 <Text style={styles.requests}>{rowData.title}</Text>
-               </View>
-             </TouchableHighlight>
-            )
-          }
-          enableEmptySections={true}
-          />
       </View>
     );
-  }
-
-  onListItemClick(rowData) {
-    this.props.navigator.push({ screen: 'RequestScene', data: rowData });
   }
 }
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-const query = gql`query MyQuery { requests { id, title } }`;
-
-export const RequestsSceneWithData = graphql(query)(RequestsScene);
+//const query = gql`query MyQuery { request(id: $id) { id, title, content } }`;
+//
+//export const RequestSceneWithData = graphql(query)(RequestScene);
 
 const styles = StyleSheet.create({
   container: {

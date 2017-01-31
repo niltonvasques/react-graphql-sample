@@ -8,6 +8,8 @@ import SigninScene from './SigninScene';
 import SignupScene from './SignupScene';
 //import RequestsScene from './RequestsScene';
 import { RequestsSceneWithData } from './RequestsScene';
+//import { RequestSceneWithData } from './RequestScene';
+import RequestScene from './RequestScene';
 
 export default class RootComponent extends Component {
   render() {
@@ -24,6 +26,8 @@ export default class RootComponent extends Component {
               return <SignupScene navigator={nav} />
             case "RequestsScene":
               return <RequestsSceneWithData navigator={nav} />
+            case "RequestScene":
+              return <RequestScene navigator={nav} request={route.data} />
           }
         }}
       />
