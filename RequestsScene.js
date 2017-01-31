@@ -12,7 +12,8 @@ import {
   ListView,
   Alert,
   TouchableHighlight,
-  Button
+  Button,
+  AsyncStorage
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
@@ -28,7 +29,14 @@ class RequestsScene extends Component {
     ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
       dataSource: ds.cloneWithRows([]),
+      user: { customer: false, agent: false, admin: false }
     };
+    this.restoreUser();
+  }
+
+  async restoreUser() {
+    var user = await AsyncStorage.getItem('user');
+    this.setState({ user: JSON.parse(user)});
   }
 
   componentWillReceiveProps(newProps) {
@@ -37,6 +45,16 @@ class RequestsScene extends Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.data.requests),
     })
+  }
+
+  renderNewRequestButton() {
+    if (!this.state.user.customer) return null;
+    return (
+        <Button 
+          color="lightgreen"
+          onPress={this.onNewRequest.bind(this)} 
+          title="Create new request" accessibilityLabel="Create a new request" />
+        )
   }
 
   render() {
@@ -58,10 +76,7 @@ class RequestsScene extends Component {
           }
           enableEmptySections={true}
           />
-        <Button 
-          color="lightgreen"
-          onPress={this.onNewRequest.bind(this)} 
-          title="Create new request" accessibilityLabel="Create a new request" />
+          {this.renderNewRequestButton()}
       </View>
     );
   }
