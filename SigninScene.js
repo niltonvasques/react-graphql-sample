@@ -12,7 +12,8 @@ import {
   Image,
   Button,
   Alert,
-  TextInput
+  TextInput,
+  AsyncStorage
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
@@ -60,8 +61,13 @@ export default class SigninScene extends Component {
     this.props.mutate({
       variables: { input: { email: this.state.email, password: this.state.password } }
     }).then(({ data }) => {
-      this.props.navigator.push({ screen: 'RequestsScene' });
       console.log('got data', data);
+      try {
+        AsyncStorage.setItem("token", data.signIn.token);
+        this.props.navigator.push({ screen: 'RequestsScene' });
+      } catch (error) {
+        console.log('error', error);
+      }
     }).catch((error) => {
       Alert.alert("Login failed!");
       console.log('there was an error sending the query', error);

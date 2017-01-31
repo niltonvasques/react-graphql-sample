@@ -6,7 +6,7 @@
 
 // React
 import React, { Component } from 'react';
-import { AppRegistry, Navigator } from 'react-native';
+import { AppRegistry, Navigator, AsyncStorage } from 'react-native';
 
 // Apollo
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
@@ -21,8 +21,18 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {};  // Create the header object if needed.
     }
-    req.options.headers['authorization'] = 'Token token="oY5mUzewLT78buDJDaF-AQ"';
-    next();
+    try {
+      AsyncStorage.getItem('token').then((value) => {
+        if (value !== null){
+          req.options.headers['authorization'] = `Token token="${value}"`;
+          // We have data!!
+          console.log(value);
+        }
+        next();
+      }).done();
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 }]);
 
