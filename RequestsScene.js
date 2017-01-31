@@ -67,7 +67,7 @@ class RequestsScene extends Component {
 }
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-const query = gql`query MyQuery { requests { id, title } }`;
+const query = gql`query MyQuery { requests { id, title, content } }`;
 
 export const RequestsSceneWithData = graphql(query)(RequestsScene);
 

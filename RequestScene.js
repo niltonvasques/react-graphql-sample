@@ -33,7 +33,13 @@ export default class RequestScene extends Component {
     return (
       <View style={styles.container}>
         <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
-          Request - {this.props.request.id}
+          Request #{this.props.request.id}
+        </Text>
+        <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
+          {this.props.request.title}
+        </Text>
+        <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
+          {this.props.request.content}
         </Text>
       </View>
     );
@@ -48,7 +54,6 @@ export default class RequestScene extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
   },
