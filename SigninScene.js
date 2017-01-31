@@ -15,9 +15,12 @@ import {
   TextInput
 } from 'react-native';
 
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import Logo from './Logo';
 
-export default class SignupScene extends Component {
+export default class SigninScene extends Component {
   static get defaultProps() { 
     return { navigator: null };
   }
@@ -48,7 +51,13 @@ export default class SignupScene extends Component {
   }
 
   onSignin() {
-    this.props.navigator.push({ screen: 'RequestsScene' });
+    this.props.mutate({ variables: { input: { email: "test3@dev.com", password: "123456" } } })
+      .then(({ data }) => {
+        this.props.navigator.push({ screen: 'RequestsScene' });
+        console.log('got data', data);
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
   }
 }
 
@@ -85,3 +94,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mutation = gql`
+  mutation signIn($input: SignInInput!) {
+    signIn(input: $input) { token }
+  }`;
+
+export const SigninSceneWithData = graphql(mutation)(SigninScene);
