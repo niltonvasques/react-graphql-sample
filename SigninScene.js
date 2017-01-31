@@ -63,7 +63,8 @@ export default class SigninScene extends Component {
     }).then(({ data }) => {
       console.log('got data', data);
       try {
-        AsyncStorage.setItem("token", data.signIn.token);
+        AsyncStorage.setItem("token", data.signIn.data.token);
+        AsyncStorage.setItem("user", JSON.stringify(data.signIn.data.user));
         this.props.navigator.push({ screen: 'RequestsScene' });
       } catch (error) {
         console.log('error', error);
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
 
 const mutation = gql`
   mutation signIn($input: SignInInput!) {
-    signIn(input: $input) { token }
+    signIn(input: $input) { data { token, user { id, name, email, customer, agent, admin } } }
   }`;
 
 export const SigninSceneWithData = graphql(mutation)(SigninScene);
