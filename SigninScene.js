@@ -21,8 +21,12 @@ import gql from 'graphql-tag';
 import Logo from './Logo';
 
 export default class SigninScene extends Component {
-  static get defaultProps() { 
-    return { navigator: null };
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+    }
   }
 
   render() {
@@ -37,10 +41,12 @@ export default class SigninScene extends Component {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter your email'
+          onChangeText={(text) => this.setState({email: text})} value={this.state.email}
           />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter a password'
+          onChangeText={(text) => this.setState({password: text})} value={this.state.password}
           secureTextEntry={true}
           />
         <Button onPress={this.onSignin.bind(this)} 
@@ -51,13 +57,15 @@ export default class SigninScene extends Component {
   }
 
   onSignin() {
-    this.props.mutate({ variables: { input: { email: "test3@dev.com", password: "123456" } } })
-      .then(({ data }) => {
-        this.props.navigator.push({ screen: 'RequestsScene' });
-        console.log('got data', data);
-      }).catch((error) => {
-        console.log('there was an error sending the query', error);
-      });
+    this.props.mutate({
+      variables: { input: { email: this.state.email, password: this.state.password } }
+    }).then(({ data }) => {
+      this.props.navigator.push({ screen: 'RequestsScene' });
+      console.log('got data', data);
+    }).catch((error) => {
+      Alert.alert("Login failed!");
+      console.log('there was an error sending the query', error);
+    });
   }
 }
 
