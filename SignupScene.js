@@ -15,11 +15,19 @@ import {
   TextInput
 } from 'react-native';
 
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import Logo from './Logo';
 
 export default class SignupScene extends Component {
-  static get defaultProps() { 
-    return { navigator: null };
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+    }
   }
 
   render() {
@@ -34,14 +42,17 @@ export default class SignupScene extends Component {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter username'
+          onChangeText={(text) => this.setState({name: text})} value={this.state.name}
           />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter your email'
+          onChangeText={(text) => this.setState({email: text})} value={this.state.email}
           />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter a password'
+          onChangeText={(text) => this.setState({password: text})} value={this.state.password}
           secureTextEntry={true}
           />
         <Button 
@@ -53,7 +64,19 @@ export default class SignupScene extends Component {
   }
 
   onSignup() {
-    this.props.navigator.push({ screen: 'RequestsScene' });
+    this.props.mutate({
+      variables: { input: {
+        name: this.state.name,
+        email: this.state.email, 
+        password: this.state.password,
+        password_confirmation: this.state.password }
+    }}).then(({ data }) => {
+      this.props.navigator.push({ screen: 'RequestsScene' });
+      console.log('got data', data);
+    }).catch((error) => {
+      Alert.alert("Signup failed!");
+      console.log('there was an error sending the query', error);
+    });
   }
 }
 
@@ -90,3 +113,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mutation = gql`
+mutation registerUser($input: RegisterUserInput!) {
+  registerUser(input: $input) {
+    user {
+      id,
+      name,
+      email
+    }
+  }
+}`;
+
+export const SignupSceneWithData = graphql(mutation)(SignupScene);

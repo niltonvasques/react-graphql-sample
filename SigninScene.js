@@ -15,11 +15,18 @@ import {
   TextInput
 } from 'react-native';
 
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import Logo from './Logo';
 
-export default class SignupScene extends Component {
-  static get defaultProps() { 
-    return { navigator: null };
+export default class SigninScene extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+    }
   }
 
   render() {
@@ -34,10 +41,12 @@ export default class SignupScene extends Component {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter your email'
+          onChangeText={(text) => this.setState({email: text})} value={this.state.email}
           />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter a password'
+          onChangeText={(text) => this.setState({password: text})} value={this.state.password}
           secureTextEntry={true}
           />
         <Button onPress={this.onSignin.bind(this)} 
@@ -48,7 +57,15 @@ export default class SignupScene extends Component {
   }
 
   onSignin() {
-    this.props.navigator.push({ screen: 'RequestsScene' });
+    this.props.mutate({
+      variables: { input: { email: this.state.email, password: this.state.password } }
+    }).then(({ data }) => {
+      this.props.navigator.push({ screen: 'RequestsScene' });
+      console.log('got data', data);
+    }).catch((error) => {
+      Alert.alert("Login failed!");
+      console.log('there was an error sending the query', error);
+    });
   }
 }
 
@@ -85,3 +102,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mutation = gql`
+  mutation signIn($input: SignInInput!) {
+    signIn(input: $input) { token }
+  }`;
+
+export const SigninSceneWithData = graphql(mutation)(SigninScene);

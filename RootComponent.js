@@ -4,8 +4,8 @@ import { Alert, Navigator, Text, BackAndroid } from 'react-native';
 
 // Scenes
 import MainScene from './MainScene';
-import SigninScene from './SigninScene';
-import SignupScene from './SignupScene';
+import { SigninSceneWithData } from './SigninScene';
+import { SignupSceneWithData } from './SignupScene';
 //import RequestsScene from './RequestsScene';
 import { RequestsSceneWithData } from './RequestsScene';
 //import { RequestSceneWithData } from './RequestScene';
@@ -33,9 +33,9 @@ export default class RootComponent extends Component {
             case "MainScene":
               return <MainScene navigator={nav} />
             case "SigninScene":
-              return <SigninScene navigator={nav} />
+              return <SigninSceneWithData navigator={nav} />
             case "SignupScene":
-              return <SignupScene navigator={nav} />
+              return <SignupSceneWithData navigator={nav} />
             case "RequestsScene":
               return <RequestsSceneWithData navigator={nav} />
             case "RequestScene":
