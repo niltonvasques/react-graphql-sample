@@ -11,7 +11,8 @@ import {
   View,
   ListView,
   Alert,
-  TouchableHighlight
+  TouchableHighlight,
+  Button
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
@@ -57,12 +58,20 @@ class RequestsScene extends Component {
           }
           enableEmptySections={true}
           />
+        <Button 
+          color="lightgreen"
+          onPress={this.onNewRequest.bind(this)} 
+          title="Create new request" accessibilityLabel="Create a new request" />
       </View>
     );
   }
 
   onListItemClick(rowData) {
     this.props.navigator.push({ screen: 'RequestScene', data: rowData });
+  }
+
+  onNewRequest() {
+    this.props.navigator.push({ screen: 'NewRequestScene' });
   }
 }
 
