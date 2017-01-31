@@ -10,63 +10,50 @@ import {
   Text,
   View,
   ListView,
+  Alert
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-export default class RequestsScene extends Component {
-  //constructor() { 
-  //  super(); 
-  //  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
-  //  this.state = { dataSource: ds.cloneWithRows(['Request 1', 'Request 2']), };
-  //}
-
-  //static get defaultProps() { 
-  //  return { title: 'MainScene', navigator: null };
-  //}
-
-  //render() {
-  //  return (
-  //    <View style={styles.container}>
-  //      <Text style={styles.welcome}>
-  //        Requests
-  //        {this.props.requests}
-  //      </Text>
-
-  //     <ListView dataSource={this.state.dataSource}
-  //       renderRow={(rowData) => <Text>{rowData}</Text>}
-  //       />
-  //    </View>
-  //  );
-  //}
-  constructor() {
-    super()
+class RequestsScene extends Component {
+  constructor() { 
+    super(); 
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
+    requests = [];
+    if (this.props && this.props.requests) requests = this.props.requests;
+    this.state = {
+      dataSource: ds.cloneWithRows(requests),
+    };
   }
-  render () {
-    // Initialize GraphQL queries or mutations with the `gql` tag
-    const query = gql`query MyQuery { requests { id } }`;
 
-    const Request = ({ data }) => (
-      <View style={{paddingLeft: 20, paddingTop: 20}}>
-        <Text>Name: {data.requests && data.requests[0].id}</Text>
-      </View>
-    )
+  componentWillReceiveProps(newProps) {
+    if (newProps.data.loading) { return; }
 
-    const ViewWithData = graphql(query)(Request)
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(newProps.data.requests)
+    })
+  }
 
+  render() {
     return (
       <View style={styles.container}>
-        <Text style={{textAlign: 'center'}}>Find President Info</Text>
-        <ViewWithData />
+        <Text style={styles.welcome}>
+          Requests
+        </Text>
+
+       <ListView dataSource={this.state.dataSource}
+         renderRow={(rowData) => <Text>{rowData.id}</Text>}
+         />
       </View>
-    )
+    );
   }
 }
 
+// Initialize GraphQL queries or mutations with the `gql` tag
+const query = gql`query MyQuery { requests { id } }`;
 
-// Or, we can bind the execution of MyMutation to a prop
-//const MyComponentWithMutation = graphql(MyMutation)(MyComponent);
+export const RequestsSceneWithData = graphql(query)(RequestsScene);
 
 const styles = StyleSheet.create({
   container: {

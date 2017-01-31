@@ -6,7 +6,8 @@ import { Navigator } from 'react-native';
 import MainScene from './MainScene';
 import SigninScene from './SigninScene';
 import SignupScene from './SignupScene';
-import RequestsScene from './RequestsScene';
+//import RequestsScene from './RequestsScene';
+import { RequestsSceneWithData } from './RequestsScene';
 
 export default class RootComponent extends Component {
   render() {
@@ -18,11 +19,11 @@ export default class RootComponent extends Component {
             case "MainScene":
               return <MainScene navigator={nav} />
             case "SigninScene":
-                return <SigninScene navigator={nav} />
+              return <SigninScene navigator={nav} />
             case "SignupScene":
-                  return <SignupScene navigator={nav} />
+              return <SignupScene navigator={nav} />
             case "RequestsScene":
-                    return <RequestsScene navigator={nav} />
+              return <RequestsSceneWithData />
           }
         }}
       />
