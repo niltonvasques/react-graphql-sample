@@ -55,7 +55,7 @@ class RequestScene extends Component {
     return (
       <View style={styles.container}>
         <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
-          Request #{this.state.request.id}
+          Request #{this.state.request.id} - {this.state.request.open ? 'Open' : 'Closed'}
         </Text>
         <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
           {this.state.request.title}
