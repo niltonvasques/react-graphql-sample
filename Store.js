@@ -2,7 +2,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 
 // Apollo
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import ApolloClient, { createNetworkInterface, toIdValue } from 'apollo-client';
 
 import { AsyncStorage } from 'react-native';
 

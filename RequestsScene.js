@@ -38,8 +38,7 @@ class RequestsScene extends Component {
     };
     this.restoreUser();
     console.log("CONSTRUCTOR");
-    console.log(props.data);
-    console.log(store.getState());
+    console.log(store.getState().apollo.data);
   }
 
   async restoreUser() {

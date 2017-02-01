@@ -23,6 +23,9 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
+import { RequestQuery } from './Queries';
+import update from 'immutability-helper';
+
 export default class CommentsComponent extends Component {
   constructor(props) { 
     super(props); 
@@ -30,22 +33,24 @@ export default class CommentsComponent extends Component {
     this.state = {
       dataSource: ds.cloneWithRows([]),
       request: props.request,
+      comments: [],
     };
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.data.loading) { return; }
+    if (!newProps.data.request) { 
+      console.log("PROPS FAILED");
+      console.log(newProps.data);
+      return;
+    }
 
     // Apollo cache is preserving the old query state
     // So we need force refetch
     // Research a better way to handle it (maybe with redux)
-    if (this.state.request.id != newProps.data.request.id) {
-      newProps.data.refetch();
-    } else {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(newProps.data.request.comments),
-      })
-    }
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(newProps.data.request.comments),
+    })
   }
 
   // Rendering
@@ -71,14 +76,8 @@ export default class CommentsComponent extends Component {
   renderAddComment() {
     if (!this.state.request.open) return null;
     return (
-        <AddCommentComponentWithData request={this.state.request}
-          onCommented={this.onCommented.bind(this)} />
+        <AddCommentComponentWithData request={this.state.request} />
     )
-  }
-
-  // Callbacks
-  onCommented() {
-    this.props.data.refetch();
   }
 }
 
@@ -95,18 +94,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const query = gql`query RequestQuery($id: ID!) {
-  request(id: $id) {
-    id,
-    comments {
-      id,
-      comment,
-      user { name },
-      created_at,
-      updated_at
-    }
-  }
-}`;
-export const CommentsComponentWithData = graphql(query,{
-  options: (props) => ({ variables: { id: props.request.id }})
-})(CommentsComponent);
+export const CommentsComponentWithData = graphql(RequestQuery, {
+  props(props) {
+    return props; 
+  },
+  options(props) {
+    console.log("OPTIONS");
+    console.log(props);
+    return {
+      variables: { id: props.request.id },
+      reducer: (previousResult, action, variables) => {
+        if (action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'addComment'){
+          const result = update(previousResult, {
+            request: {
+              comments: {
+                $push: [action.result.data.addComment.comment],
+              },
+            },
+          });
+          console.log(result);
+          return result;
+        }
+        return previousResult;
+      },
+    };
+  },
+} 
+)(CommentsComponent);
