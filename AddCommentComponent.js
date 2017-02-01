@@ -15,6 +15,9 @@ import {
 
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import update from 'immutability-helper';
+
+import { RequestQuery } from './Queries';
 
 export default class AddCommentComponent extends Component {
   constructor(props) {
@@ -68,9 +71,10 @@ mutation addComment($input: AddCommentInput!) {
   addComment(input: $input) {
     comment {
       id,
-      title,
       comment,
-      user { id }
+      user { name }
+      created_at,
+      updated_at
     }
   }
 }`;

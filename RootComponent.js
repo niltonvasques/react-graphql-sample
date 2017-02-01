@@ -10,6 +10,9 @@ import { RequestsSceneWithData } from './RequestsScene';
 import { NewRequestSceneWithData } from './NewRequestScene';
 import { RequestSceneWithData } from './RequestScene';
 
+// Redux
+import { store } from './Store';
+
 export default class RootComponent extends Component {
   constructor() {
     super();
