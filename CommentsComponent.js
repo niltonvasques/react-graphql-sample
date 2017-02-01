@@ -14,6 +14,8 @@ import {
   Alert,
 } from 'react-native';
 
+import { AddCommentComponentWithData } from './AddCommentComponent';
+
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -46,6 +48,7 @@ export default class CommentsComponent extends Component {
     }
   }
 
+  // Rendering
   render() {
     return (
       <View style={styles.container}>
@@ -60,8 +63,22 @@ export default class CommentsComponent extends Component {
           )}
           enableEmptySections={true}
         />
+        {this.renderAddComment()}
       </View>
     );
+  }
+
+  renderAddComment() {
+    if (!this.state.request.open) return null;
+    return (
+        <AddCommentComponentWithData request={this.state.request}
+          onCommented={this.onCommented.bind(this)} />
+    )
+  }
+
+  // Callbacks
+  onCommented() {
+    this.props.data.refetch();
   }
 }
 

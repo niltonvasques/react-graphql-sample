@@ -23,15 +23,21 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
+// Redux
+import { store } from './Store';
+
 class RequestsScene extends Component {
-  constructor() { 
-    super(); 
+  constructor(props) { 
+    super(props); 
     ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
       dataSource: ds.cloneWithRows([]),
       user: { customer: false, agent: false, admin: false }
     };
     this.restoreUser();
+    console.log("CONSTRUCTOR");
+    console.log(props.data);
+    console.log(store.getState());
   }
 
   async restoreUser() {
@@ -41,22 +47,14 @@ class RequestsScene extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.data.loading) { return; }
+    if (!newProps.data.requests) { return; }
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.data.requests),
     })
   }
 
-  renderNewRequestButton() {
-    if (!this.state.user.customer) return null;
-    return (
-        <Button 
-          color="lightgreen"
-          onPress={this.onNewRequest.bind(this)} 
-          title="Create new request" accessibilityLabel="Create a new request" />
-        )
-  }
-
+  // Rendering
   render() {
     return (
       <View style={styles.container}>
@@ -82,6 +80,18 @@ class RequestsScene extends Component {
     );
   }
 
+  renderNewRequestButton() {
+    if (!this.state.user.customer) return null;
+    return (
+        <Button 
+          color="lightgreen"
+          onPress={this.onNewRequest.bind(this)} 
+          title="Create new request" accessibilityLabel="Create a new request" />
+        )
+  }
+
+
+  // Callbacks
   onListItemClick(rowData) {
     this.props.navigator.push({ screen: 'RequestScene', data: rowData });
   }
@@ -92,7 +102,7 @@ class RequestsScene extends Component {
 }
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-const query = gql`query MyQuery { requests { id, title, content, open } }`;
+const query = gql`query Requests { requests { id, title, content, open } }`;
 
 export const RequestsSceneWithData = graphql(query)(RequestsScene);
 

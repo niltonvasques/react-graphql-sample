@@ -54,6 +54,7 @@ export default class AddCommentComponent extends Component {
       this.setState({
         comment: ""
       });
+      if (this.props.onCommented) this.props.onCommented();
     }).catch((error) => {
       Alert.alert("Comment not created!");
       console.log('there was an error sending the query', error);

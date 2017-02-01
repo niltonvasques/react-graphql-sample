@@ -24,7 +24,6 @@ import { typography } from 'react-native-material-design-styles';
 const typographyStyle = StyleSheet.create(typography);
 
 import { CommentsComponentWithData } from './CommentsComponent';
-import { AddCommentComponentWithData } from './AddCommentComponent';
 
 class RequestScene extends Component {
   constructor(props) { 
@@ -63,13 +62,6 @@ class RequestScene extends Component {
         )
   }
 
-  renderAddComment() {
-    if (!this.state.request.open) return null;
-    return (
-        <AddCommentComponentWithData request={this.state.request} />
-    )
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -85,7 +77,6 @@ class RequestScene extends Component {
 
         <CommentsComponentWithData request={this.state.request} />
 
-        {this.renderAddComment()}
         {this.renderCloseRequest()}
       </View>
     );

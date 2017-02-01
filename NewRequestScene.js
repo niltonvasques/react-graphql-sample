@@ -18,6 +18,8 @@ import {
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import update from 'immutability-helper';
+
 export default class NewRequestScene extends Component {
   constructor() {
     super();
@@ -45,19 +47,30 @@ export default class NewRequestScene extends Component {
           />
         <Button 
           color="lightgreen"
-          onPress={this.onSignup.bind(this)} 
+          onPress={this.onSave.bind(this)} 
           title="Save" accessibilityLabel="Create request" />
       </View>
     );
   }
 
-  onSignup() {
+  onSave() {
     this.props.mutate({
       variables: { input: {
         title: this.state.title,
         content: this.state.content, 
       }
-    }}).then(({ data }) => {
+    },
+      updateQueries: { // Update requests list
+        Requests: (prev, { mutationResult }) => {
+          const newRequest = mutationResult.data.createRequest.request;
+          return update(prev, {
+              requests: {
+                $unshift: [newRequest],
+              }
+            });
+          }
+        }
+    }).then(({ data }) => {
       this.props.navigator.push({ screen: 'RequestsScene' });
       console.log('got data', data);
     }).catch((error) => {
