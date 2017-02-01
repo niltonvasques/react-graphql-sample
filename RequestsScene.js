@@ -70,7 +70,7 @@ class RequestsScene extends Component {
                <View style={{flexDirection: 'row'}} >
                  <Text style={styles.requests}>{rowData.id}</Text>
                  <Text style={styles.requests}>{rowData.title}</Text>
-                 <Text style={styles.requests}>{rowData.open ? 'Open' : 'Close'}</Text>
+                 <Text style={styles.requests}>{rowData.open ? 'Open' : 'Closed'}</Text>
                </View>
              </TouchableHighlight>
             )
