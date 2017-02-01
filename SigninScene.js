@@ -17,9 +17,10 @@ import {
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import Logo from './Logo';
+
+import { SignInMutation, RequestsQuery } from './Queries';
 
 export default class SigninScene extends Component {
   constructor() {
@@ -59,7 +60,10 @@ export default class SigninScene extends Component {
 
   onSignin() {
     this.props.mutate({
-      variables: { input: { email: this.state.email, password: this.state.password } }
+      variables: { input: { email: this.state.email, password: this.state.password } },
+      refetchQueries: [{
+        query: RequestsQuery,
+      }],
     }).then(({ data }) => {
       console.log('got data', data);
       try {
@@ -110,9 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mutation = gql`
-  mutation signIn($input: SignInInput!) {
-    signIn(input: $input) { data { token, user { id, name, email, customer, agent, admin } } }
-  }`;
-
-export const SigninSceneWithData = graphql(mutation)(SigninScene);
+export const SigninSceneWithData = graphql(SignInMutation)(SigninScene);

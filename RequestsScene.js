@@ -26,6 +26,8 @@ const typographyStyle = StyleSheet.create(typography);
 // Redux
 import { store } from './Store';
 
+import { RequestsQuery } from './Queries';
+
 class RequestsScene extends Component {
   constructor(props) { 
     super(props); 
@@ -101,10 +103,7 @@ class RequestsScene extends Component {
   }
 }
 
-// Initialize GraphQL queries or mutations with the `gql` tag
-const query = gql`query Requests { requests { id, title, content, open } }`;
-
-export const RequestsSceneWithData = graphql(query)(RequestsScene);
+export const RequestsSceneWithData = graphql(RequestsQuery)(RequestsScene);
 
 const styles = StyleSheet.create({
   container: {
