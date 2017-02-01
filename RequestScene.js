@@ -104,9 +104,6 @@ class RequestScene extends Component {
       console.log('there was an error sending the query', error);
     });
   }
-
-  onAddComment() {
-  }
 }
 
 const styles = StyleSheet.create({

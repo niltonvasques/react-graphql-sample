@@ -29,7 +29,6 @@ export default class CommentsComponent extends Component {
       dataSource: ds.cloneWithRows([]),
       request: props.request,
     };
-    console.log("constructor");
   }
 
   componentWillReceiveProps(newProps) {
@@ -46,19 +45,6 @@ export default class CommentsComponent extends Component {
       })
     }
   }
-  componentDidUpdate() {
-    console.log('Updated')
-  }
-
-  //renderCloseRequest() {
-  //  if (!this.state.request.open) return null;
-  //  return (
-  //      <Button 
-  //        color="red"
-  //        onPress={this.onCloseRequest.bind(this)} 
-  //        title="Close request" accessibilityLabel="Close request" />
-  //      )
-  //}
 
   render() {
     return (
@@ -77,20 +63,6 @@ export default class CommentsComponent extends Component {
       </View>
     );
   }
-
-  //onCloseRequest() {
-  //  this.props.mutate({
-  //    variables: { input: { id: this.props.request.id } }
-  //  }).then(({ data }) => {
-  //    console.log('got data', data);
-  //    this.setState({
-  //      request: data.closeRequest.request
-  //    });
-  //  }).catch((error) => {
-  //    Alert.alert("Close request failed!");
-  //    console.log('there was an error sending the query', error);
-  //  });
-  //}
 }
 
 const styles = StyleSheet.create({
