@@ -8,7 +8,7 @@ import { SigninSceneWithData } from './SigninScene';
 import { SignupSceneWithData } from './SignupScene';
 import { RequestsSceneWithData } from './RequestsScene';
 import { NewRequestSceneWithData } from './NewRequestScene';
-import RequestScene from './RequestScene';
+import { RequestSceneWithData } from './RequestScene';
 
 export default class RootComponent extends Component {
   constructor() {
@@ -38,7 +38,7 @@ export default class RootComponent extends Component {
             case "RequestsScene":
               return <RequestsSceneWithData navigator={nav} />
             case "RequestScene":
-              return <RequestScene navigator={nav} request={route.data} />
+              return <RequestSceneWithData navigator={nav} request={route.data} />
             case "NewRequestScene":
               return <NewRequestSceneWithData navigator={nav} />
           }
