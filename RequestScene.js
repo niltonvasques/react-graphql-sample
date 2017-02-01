@@ -12,6 +12,7 @@ import {
   ListView,
   Button,
   Alert,
+  TextInput,
   AsyncStorage
 } from 'react-native';
 
@@ -22,10 +23,16 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
+import { CommentsComponentWithData } from './CommentsComponent';
+
 class RequestScene extends Component {
   constructor(props) { 
     super(props); 
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
+      dataSource: ds.cloneWithRows([
+        "Hello there", "There is a problem here"
+      ]),
       request: props.request,
       user: { customer: false, agent: false, admin: false }
     };
@@ -39,6 +46,10 @@ class RequestScene extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.data.loading) { return; }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(newProps.data.request.comments),
+    })
   }
 
   renderCloseRequest() {
@@ -49,6 +60,23 @@ class RequestScene extends Component {
           onPress={this.onCloseRequest.bind(this)} 
           title="Close request" accessibilityLabel="Close request" />
         )
+  }
+
+  renderAddComment() {
+    if (!this.state.request.open) return null;
+    return (
+      <View>
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          placeholder='Add a comment'
+          onChangeText={(text) => this.setState({comment: text})} value={this.state.comment}
+          />
+        <Button 
+          color="lightgreen"
+          onPress={this.onAddComment.bind(this)} 
+          title="Send" accessibilityLabel="Add a new comment" />
+      </View>
+    )
   }
 
   render() {
@@ -63,6 +91,10 @@ class RequestScene extends Component {
         <Text style={[typographyStyle.paperFontTitle, styles.welcome]}>
           {this.state.request.content}
         </Text>
+
+        <CommentsComponentWithData request={this.state.request} />
+
+        {this.renderAddComment()}
         {this.renderCloseRequest()}
       </View>
     );
@@ -80,6 +112,9 @@ class RequestScene extends Component {
       Alert.alert("Close request failed!");
       console.log('there was an error sending the query', error);
     });
+  }
+
+  onAddComment() {
   }
 }
 
