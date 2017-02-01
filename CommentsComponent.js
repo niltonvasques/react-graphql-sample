@@ -67,6 +67,7 @@ export default class CommentsComponent extends Component {
           renderRow={(rowData) => (
              <TouchableHighlight>
                <View style={{flexDirection: 'row'}} >
+                 <Text style={styles.comments}>{rowData.user.name} says: </Text>
                  <Text style={styles.comments}>{rowData.comment}</Text>
                </View>
             </TouchableHighlight>
@@ -111,6 +112,7 @@ const query = gql`query RequestQuery($id: ID!) {
     comments {
       id,
       comment,
+      user { name },
       created_at,
       updated_at
     }

@@ -24,6 +24,7 @@ import { typography } from 'react-native-material-design-styles';
 const typographyStyle = StyleSheet.create(typography);
 
 import { CommentsComponentWithData } from './CommentsComponent';
+import { AddCommentComponentWithData } from './AddCommentComponent';
 
 class RequestScene extends Component {
   constructor(props) { 
@@ -65,17 +66,7 @@ class RequestScene extends Component {
   renderAddComment() {
     if (!this.state.request.open) return null;
     return (
-      <View>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder='Add a comment'
-          onChangeText={(text) => this.setState({comment: text})} value={this.state.comment}
-          />
-        <Button 
-          color="lightgreen"
-          onPress={this.onAddComment.bind(this)} 
-          title="Send" accessibilityLabel="Add a new comment" />
-      </View>
+        <AddCommentComponentWithData request={this.state.request} />
     )
   }
 
