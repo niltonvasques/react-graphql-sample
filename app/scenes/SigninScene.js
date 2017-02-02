@@ -18,9 +18,9 @@ import {
 
 import { graphql } from 'react-apollo';
 
-import Logo from './Logo';
+import Logo from '../components/Logo';
 
-import { SignInMutation, RequestsQuery } from './Queries';
+import { SignInMutation, RequestsQuery } from '../constants/Queries';
 
 export default class SigninScene extends Component {
   constructor() {

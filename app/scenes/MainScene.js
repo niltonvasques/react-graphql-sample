@@ -14,7 +14,7 @@ import {
   Alert
 } from 'react-native';
 
-import Logo from './Logo';
+import Logo from '../components/Logo';
 
 export default class MainScene extends Component {
   static get defaultProps() { 
