@@ -11,14 +11,13 @@ import { ApolloProvider } from 'react-apollo';
 import { client } from './app/store/Store';
 
 // Scenes
-import RootComponent from './app/components/RootComponent';
-import MainScene from './app/scenes/MainScene';
+import Root from './app/web/components/Root';
 
 class ReactNativeWeb extends Component {
   render() {
     return (
         <ApolloProvider client={client}>
-          <MainScene />
+          <Root />
         </ApolloProvider>
     );
   }
