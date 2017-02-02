@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import {
   AppRegistry,
   StyleSheet,
@@ -8,12 +9,16 @@ import {
 
 // Apollo
 import { ApolloProvider } from 'react-apollo';
-import { client } from './app/store/Store';
+import { client } from './app/store/Client';
 
 // Scenes
 import Root from './app/web/components/Root';
 
 class ReactNativeWeb extends Component {
+  constructor() {
+    super();
+    alert(Platform.OS);
+  }
   render() {
     return (
         <ApolloProvider client={client}>
