@@ -17,7 +17,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import update from 'immutability-helper';
 
-import { RequestQuery } from './Queries';
+import { RequestQuery } from '../constants/Queries';
 
 export default class AddCommentComponent extends Component {
   constructor(props) {

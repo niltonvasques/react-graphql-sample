@@ -23,7 +23,7 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
-import { CommentsComponentWithData } from './CommentsComponent';
+import { CommentsComponentWithData } from '../components/CommentsComponent';
 
 class RequestScene extends Component {
   constructor(props) { 

@@ -24,9 +24,9 @@ import { typography } from 'react-native-material-design-styles';
 const typographyStyle = StyleSheet.create(typography);
 
 // Redux
-import { store } from './Store';
+import { store } from '../store/Store';
 
-import { RequestsQuery } from './Queries';
+import { RequestsQuery } from '../constants/Queries';
 
 class RequestsScene extends Component {
   constructor(props) { 

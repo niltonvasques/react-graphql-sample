@@ -18,7 +18,7 @@ import {
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Logo from './Logo';
+import Logo from '../components/Logo';
 
 export default class SignupScene extends Component {
   constructor() {

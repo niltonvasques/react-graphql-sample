@@ -23,7 +23,7 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
-import { RequestQuery } from './Queries';
+import { RequestQuery } from '../constants/Queries';
 import update from 'immutability-helper';
 
 export default class CommentsComponent extends Component {

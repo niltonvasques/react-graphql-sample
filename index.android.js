@@ -13,13 +13,13 @@ import { ApolloProvider } from 'react-apollo';
 import { client } from './app/store/Store';
 
 // Scenes
-import RootComponent from './app/components/RootComponent';
+import Root from './app/native/components/Root';
 
 export default class TicketSystem extends Component {
   render() {
     return (
         <ApolloProvider client={client}>
-          <RootComponent />
+          <Root />
         </ApolloProvider>
     );
   }
