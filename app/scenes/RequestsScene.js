@@ -110,7 +110,6 @@ class RequestsScene extends Component {
   onNewRequest() {
     this.props.navigator.push({ screen: 'NewRequestScene' });
   }
-
 }
 
 export const RequestsSceneWithData = graphql(RequestsQuery, {
