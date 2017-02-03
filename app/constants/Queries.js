@@ -13,6 +13,59 @@ query Requests {
   }
 }`;
 
+export const UsersQuery = gql`
+query Users {
+  users {
+    id,
+    name,
+    email,
+    customer,
+    agent,
+    admin,
+    created_at,
+    updated_at,
+  }
+}`;
+
+export const RegisterAdminMutation = gql`
+mutation RegisterAdmin($input: RegisterAdminInput!) {
+  registerAdmin(input: $input) {
+    agent {
+      id,
+      name,
+      email,
+      customer,
+      agent,
+      admin,
+      created_at,
+      updated_at,
+    }
+  }
+}`;
+
+export const RegisterAgentMutation = gql`
+mutation RegisterAgent($input: RegisterAgentInput!) {
+  registerAgent(input: $input) {
+    agent {
+      id,
+      name,
+      email,
+      customer,
+      agent,
+      admin,
+      created_at,
+      updated_at,
+    }
+  }
+}`;
+
+export const RemoveUserMutation = gql`
+mutation RemoveUser($input: RemoveUserInput!) {
+  removeUser(input: $input) {
+    removed
+  }
+}`;
+
 export const RequestQuery = gql`query RequestQuery($id: ID!) {
   request(id: $id) {
     id,
