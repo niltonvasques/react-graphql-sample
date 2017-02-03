@@ -72,7 +72,11 @@ export default class SigninScene extends Component {
       console.log('got data', data);
       storage.setItem("token", data.signIn.data.token);
       storage.setItem("user", JSON.stringify(data.signIn.data.user));
-      this.props.navigator.push({ screen: 'RequestsScene' });
+      if (data.signIn.data.user.admin) {
+        this.props.navigator.push({ screen: 'AdminScene' });
+      } else {
+        this.props.navigator.push({ screen: 'RequestsScene' });
+      }
     }).catch((error) => {
       Popup.show("Login failed!");
       console.log('there was an error sending the query', error);

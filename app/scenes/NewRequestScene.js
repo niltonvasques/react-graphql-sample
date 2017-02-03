@@ -62,7 +62,6 @@ export default class NewRequestScene extends Component {
     },
       updateQueries: { // Update requests list
         Requests: (prev, { mutationResult }) => {
-          console.log(prev);
           const newRequest = mutationResult.data.createRequest.request;
           const result = update(prev, {
             requests: {
@@ -71,8 +70,8 @@ export default class NewRequestScene extends Component {
           });
           console.log(result);
           return result;
-          }
         }
+      }
     }).then(({ data }) => {
       this.props.navigator.push({ screen: 'RequestsScene' });
       console.log('got data', data);

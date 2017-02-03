@@ -35,7 +35,7 @@ export default class ReportRequestsButton extends Component {
   render() {
     return (
         <Button 
-        color="red"
+        color="dimgray"
         onPress={this.onReport.bind(this)} 
         title="Reports closed from last month (PDF)" accessibilityLabel="Report last month" />
     );

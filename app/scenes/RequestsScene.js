@@ -29,6 +29,7 @@ import { storage } from '../store/Storage';
 import { store } from '../store/Store';
 import { RequestsQuery } from '../constants/Queries';
 import { ReportRequestsButtonWithData } from '../web/components/ReportRequestsButton';
+import { ButtonRemoveRequestWithData } from '../components/ButtonRemoveRequest';
 
 class RequestsScene extends Component {
   constructor(props) { 
@@ -65,13 +66,20 @@ class RequestsScene extends Component {
 
         <ListView dataSource={this.state.dataSource}
           renderRow={(rowData) => (
-             <TouchableHighlight onPress={this.onListItemClick.bind(this, rowData)}>
-               <View style={{flexDirection: 'row'}} >
-                 <Text style={styles.requests}>{rowData.id}</Text>
-                 <Text style={styles.requests}>{rowData.title}</Text>
-                 <Text style={styles.requests}>{rowData.open ? 'Open' : 'Closed'}</Text>
+             <View style={{flexDirection: 'row', flex: 1}} >
+                 <View style={{flexDirection: 'row', flex: 0.7}} >
+               <TouchableHighlight onPress={this.onListItemClick.bind(this, rowData)} >
+                 <View style={{flexDirection: 'row'}} >
+                   <Text style={styles.requests}>{rowData.id}</Text>
+                   <Text style={styles.requests}>{rowData.title}</Text>
+                   <Text style={styles.requests}>{rowData.open ? 'Open' : 'Closed'}</Text>
+                 </View>
+               </TouchableHighlight>
+                 </View>
+               <View style={{flex: 0.3, flexDirection: 'row', justifyContent: 'flex-end'}} >
+                 {this.renderRemoveButton(rowData)}
                </View>
-             </TouchableHighlight>
+             </View>
             )
           }
           enableEmptySections={true}
@@ -101,6 +109,14 @@ class RequestsScene extends Component {
     )
   }
 
+  renderRemoveButton(rowData) {
+    if (Platform.OS != 'web') return null;
+    if (!this.state.user.admin) return null;
+    return (
+        <ButtonRemoveRequestWithData request={rowData} />
+    )
+  }
+
 
   // Callbacks
   onListItemClick(rowData) {
@@ -109,6 +125,9 @@ class RequestsScene extends Component {
 
   onNewRequest() {
     this.props.navigator.push({ screen: 'NewRequestScene' });
+  }
+
+  onRequestRemove(rowData) {
   }
 }
 

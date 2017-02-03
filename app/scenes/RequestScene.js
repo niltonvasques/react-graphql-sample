@@ -39,10 +39,6 @@ class RequestScene extends Component {
   }
 
   componentDidMount() {
-    this.restoreUser();
-  }
-
-  restoreUser() {
     storage.getItem('user', (user) => this.setState({ user: JSON.parse(user)}));
   }
 

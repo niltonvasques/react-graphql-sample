@@ -6,6 +6,7 @@ import { Router, Route, Link, hashHistory } from 'react-router'
 
 // Scenes
 import MainScene from '../../scenes/MainScene';
+import AdminScene from '../../scenes/AdminScene';
 import { SigninSceneWithData } from '../../scenes/SigninScene';
 import { SignupSceneWithData } from '../../scenes/SignupScene';
 import { RequestsSceneWithData } from '../../scenes/RequestsScene';
@@ -41,6 +42,9 @@ class Navigator {
       case "NewRequestScene":
         hashHistory.push('/requests/new');
         break;
+      case "AdminScene":
+        hashHistory.push('/admin');
+        break;
     }
   }
 }
@@ -69,6 +73,8 @@ export default class Root extends Component {
                 request={state.request}/>)}/>
           <Route path="/requests/new" 
             component={() => (<NewRequestSceneWithData navigator={this.state.navigator}/>)} />
+          <Route path="/admin" 
+            component={() => (<AdminScene navigator={this.state.navigator}/>)} />
         </Router>
     );
   }
