@@ -54,3 +54,4 @@ fastlane/screenshots
 *.swp
 history
 docs/
+*.orig

@@ -10,7 +10,6 @@ query Requests {
     open,
     created_at,
     updated_at,
-    user { name }
   }
 }`;
 
