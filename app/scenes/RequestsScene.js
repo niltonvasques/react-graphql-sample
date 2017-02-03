@@ -41,8 +41,6 @@ class RequestsScene extends Component {
 
   componentDidMount() {
     this.restoreUser();
-    console.log("REQUESTS_MOUNTED");
-    console.log(store.getState());
   }
 
   restoreUser() {
