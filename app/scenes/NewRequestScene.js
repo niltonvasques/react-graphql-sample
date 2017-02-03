@@ -62,12 +62,15 @@ export default class NewRequestScene extends Component {
     },
       updateQueries: { // Update requests list
         Requests: (prev, { mutationResult }) => {
+          console.log(prev);
           const newRequest = mutationResult.data.createRequest.request;
-          return update(prev, {
-              requests: {
-                $unshift: [newRequest],
-              }
-            });
+          const result = update(prev, {
+            requests: {
+              $unshift: [newRequest],
+            }
+          });
+          console.log(result);
+          return result;
           }
         }
     }).then(({ data }) => {

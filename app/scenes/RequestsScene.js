@@ -17,6 +17,7 @@ import {
 
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import update from 'immutability-helper';
 
 import { typography } from 'react-native-material-design-styles';
 
@@ -103,7 +104,9 @@ class RequestsScene extends Component {
   }
 }
 
-export const RequestsSceneWithData = graphql(RequestsQuery)(RequestsScene);
+export const RequestsSceneWithData = graphql(RequestsQuery, {
+  options: { pollInterval: 5000 },
+})(RequestsScene);
 
 const styles = StyleSheet.create({
   container: {
