@@ -20,3 +20,17 @@ export const SignInMutation = gql`
   mutation signIn($input: SignInInput!) {
     signIn(input: $input) { data { token, user { id, name, email, customer, agent, admin } } }
   }`;
+
+export const SignupMutation = gql`
+mutation registerUser($input: RegisterUserInput!) {
+  registerUser(input: $input) {
+    user {
+      id,
+      name,
+      email,
+      customer,
+      agent,
+      admin
+    }
+  }
+}`;

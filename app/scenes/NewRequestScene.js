@@ -11,70 +11,70 @@ import {
   View,
   Image,
   Button,
-  Alert,
-  TextInput,
-  AsyncStorage
+  TextInput
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import update from 'immutability-helper';
 
-import Logo from './Logo';
+import { Popup } from '../components/Popup';
 
-import { SignInMutation, RequestsQuery } from './Queries';
-
-export default class SigninScene extends Component {
+export default class NewRequestScene extends Component {
   constructor() {
     super();
     this.state = {
-      email: "test3@dev.com",
-      password: "123456",
+      title: "",
+      content: "",
     }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.logo}>
-          <Logo style={styles.logoImage} />
-        </View>
         <Text style={styles.welcome}>
-          Login 
+          Create new request 
         </Text>
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder='Enter your email'
-          onChangeText={(text) => this.setState({email: text})} value={this.state.email}
+          placeholder='Enter title'
+          onChangeText={(text) => this.setState({title: text})} value={this.state.title}
           />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder='Enter a password'
-          onChangeText={(text) => this.setState({password: text})} value={this.state.password}
-          secureTextEntry={true}
+          placeholder='Enter content'
+          onChangeText={(text) => this.setState({content: text})} value={this.state.content}
           />
-        <Button onPress={this.onSignin.bind(this)} 
-          title="Sign in"
-          accessibilityLabel="Sign in into ticket system" />
+        <Button 
+          color="lightgreen"
+          onPress={this.onSave.bind(this)} 
+          title="Save" accessibilityLabel="Create request" />
       </View>
     );
   }
 
-  onSignin() {
+  onSave() {
     this.props.mutate({
-      variables: { input: { email: this.state.email, password: this.state.password } },
-      refetchQueries: [{
-        query: RequestsQuery,
-      }],
-    }).then(({ data }) => {
-      console.log('got data', data);
-      try {
-        AsyncStorage.setItem("token", data.signIn.data.token);
-        AsyncStorage.setItem("user", JSON.stringify(data.signIn.data.user));
-        this.props.navigator.push({ screen: 'RequestsScene' });
-      } catch (error) {
-        console.log('error', error);
+      variables: { input: {
+        title: this.state.title,
+        content: this.state.content, 
       }
+    },
+      updateQueries: { // Update requests list
+        Requests: (prev, { mutationResult }) => {
+          const newRequest = mutationResult.data.createRequest.request;
+          return update(prev, {
+              requests: {
+                $unshift: [newRequest],
+              }
+            });
+          }
+        }
+    }).then(({ data }) => {
+      this.props.navigator.push({ screen: 'RequestsScene' });
+      console.log('got data', data);
     }).catch((error) => {
-      Alert.alert("Login failed!");
+      Popup.show("Request not created!");
       console.log('there was an error sending the query', error);
     });
   }
@@ -114,4 +114,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SigninSceneWithData = graphql(SignInMutation)(SigninScene);
+const mutation = gql`
+mutation createRequest($input: CreateRequestInput!) {
+  createRequest(input: $input) {
+    request {
+      id,
+      title,
+      content,
+      user { id }
+    }
+  }
+}`;
+
+export const NewRequestSceneWithData = graphql(mutation)(NewRequestScene);

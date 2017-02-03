@@ -10,16 +10,16 @@ import { AppRegistry, Navigator, AsyncStorage } from 'react-native';
 
 // Apollo
 import { ApolloProvider } from 'react-apollo';
-import { client } from './Store';
+import { client } from './app/store/Client';
 
 // Scenes
-import RootComponent from './RootComponent';
+import Root from './app/native/components/Root';
 
 export default class TicketSystem extends Component {
   render() {
     return (
         <ApolloProvider client={client}>
-          <RootComponent />
+          <Root />
         </ApolloProvider>
     );
   }

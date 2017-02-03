@@ -11,12 +11,14 @@ import {
   View,
   Image,
   Button,
-  Alert
 } from 'react-native';
 
-import Logo from './Logo';
+import Logo from '../components/Logo';
 
 export default class MainScene extends Component {
+  constructor() {
+    super();
+  }
   static get defaultProps() { 
     return { title: 'MainScene', navigator: null };
   }

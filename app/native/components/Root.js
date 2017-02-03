@@ -1,19 +1,19 @@
 // React
 import React, { Component } from 'react';
-import { Alert, Navigator, Text, BackAndroid } from 'react-native';
+import { Navigator, Text, BackAndroid } from 'react-native';
 
 // Scenes
-import MainScene from './MainScene';
-import { SigninSceneWithData } from './SigninScene';
-import { SignupSceneWithData } from './SignupScene';
-import { RequestsSceneWithData } from './RequestsScene';
-import { NewRequestSceneWithData } from './NewRequestScene';
-import { RequestSceneWithData } from './RequestScene';
+import MainScene from '../../scenes/MainScene';
+import { SigninSceneWithData } from '../../scenes/SigninScene';
+import { SignupSceneWithData } from '../../scenes/SignupScene';
+import { RequestsSceneWithData } from '../../scenes/RequestsScene';
+import { NewRequestSceneWithData } from '../../scenes/NewRequestScene';
+import { RequestSceneWithData } from '../../scenes/RequestScene';
 
 // Redux
-import { store } from './Store';
+import { store } from '../../store/Store';
 
-export default class RootComponent extends Component {
+export default class Root extends Component {
   constructor() {
     super();
     navigator = null;

@@ -11,23 +11,28 @@ import {
   View,
   Image,
   Button,
-  Alert,
   TextInput
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 
-import Logo from './Logo';
+import { storage } from '../store/Storage';
+import { SignInMutation, RequestsQuery } from '../constants/Queries';
+import Logo from '../components/Logo';
+import { Popup } from '../components/Popup';
 
-export default class SignupScene extends Component {
+export default class SigninScene extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      email: "",
-      password: "",
+      email: "test3@dev.com",
+      password: "123456",
     }
+  }
+
+  componentDidMount() {
+    storage.setItem('user', null);
+    storage.setItem('token', null);
   }
 
   render() {
@@ -37,13 +42,8 @@ export default class SignupScene extends Component {
           <Logo style={styles.logoImage} />
         </View>
         <Text style={styles.welcome}>
-          Create a new account 
+          Login 
         </Text>
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          placeholder='Enter username'
-          onChangeText={(text) => this.setState({name: text})} value={this.state.name}
-          />
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           placeholder='Enter your email'
@@ -55,26 +55,26 @@ export default class SignupScene extends Component {
           onChangeText={(text) => this.setState({password: text})} value={this.state.password}
           secureTextEntry={true}
           />
-        <Button 
-          color="lightgreen"
-          onPress={this.onSignup.bind(this)} 
-          title="Sign up" accessibilityLabel="Sign up into ticket system" />
+        <Button onPress={this.onSignin.bind(this)} 
+          title="Sign in"
+          accessibilityLabel="Sign in into ticket system" />
       </View>
     );
   }
 
-  onSignup() {
+  onSignin() {
     this.props.mutate({
-      variables: { input: {
-        name: this.state.name,
-        email: this.state.email, 
-        password: this.state.password,
-        password_confirmation: this.state.password }
-    }}).then(({ data }) => {
-      this.props.navigator.push({ screen: 'RequestsScene' });
+      variables: { input: { email: this.state.email, password: this.state.password } },
+      refetchQueries: [{
+        query: RequestsQuery,
+      }],
+    }).then(({ data }) => {
       console.log('got data', data);
+      storage.setItem("token", data.signIn.data.token);
+      storage.setItem("user", JSON.stringify(data.signIn.data.user));
+      this.props.navigator.push({ screen: 'RequestsScene' });
     }).catch((error) => {
-      Alert.alert("Signup failed!");
+      Popup.show("Login failed!");
       console.log('there was an error sending the query', error);
     });
   }
@@ -114,15 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mutation = gql`
-mutation registerUser($input: RegisterUserInput!) {
-  registerUser(input: $input) {
-    user {
-      id,
-      name,
-      email
-    }
-  }
-}`;
-
-export const SignupSceneWithData = graphql(mutation)(SignupScene);
+export const SigninSceneWithData = graphql(SignInMutation)(SigninScene);

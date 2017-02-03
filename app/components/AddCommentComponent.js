@@ -9,7 +9,6 @@ import {
   StyleSheet,
   View,
   Button,
-  Alert,
   TextInput
 } from 'react-native';
 
@@ -17,7 +16,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import update from 'immutability-helper';
 
-import { RequestQuery } from './Queries';
+import { Popup } from '../components/Popup';
+import { RequestQuery } from '../constants/Queries';
 
 export default class AddCommentComponent extends Component {
   constructor(props) {
@@ -58,7 +58,7 @@ export default class AddCommentComponent extends Component {
         comment: ""
       });
     }).catch((error) => {
-      Alert.alert("Comment not created!");
+      Popup.show("Comment not created!");
       console.log('there was an error sending the query', error);
     });
   }
