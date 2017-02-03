@@ -19,8 +19,17 @@ export default class ReportRequestsButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      requests: props.requests
+      requests: [] 
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.data.loading) { return; }
+    if (!newProps.data.reportRequestsClosedInLastMonth) { return; }
+
+    this.setState({
+      requests: newProps.data.reportRequestsClosedInLastMonth
+    })
   }
 
   render() {
@@ -62,17 +71,16 @@ export default class ReportRequestsButton extends Component {
 
 const styles = StyleSheet.create({ });
 
-//const mutation = gql`
-//mutation addComment($input: AddCommentInput!) {
-//  addComment(input: $input) {
-//    comment {
-//      id,
-//      comment,
-//      user { name }
-//      created_at,
-//      updated_at
-//    }
-//  }
-//}`;
-//
-//export const AddCommentComponentWithData = graphql(mutation)(AddCommentComponent);
+const query = gql`
+query reportRequestsClosedInLastMonth {
+  reportRequestsClosedInLastMonth {
+    id,
+    title,
+    content,
+    user { name }
+    created_at,
+    updated_at
+  }
+}`;
+
+export const ReportRequestsButtonWithData = graphql(query)(ReportRequestsButton);

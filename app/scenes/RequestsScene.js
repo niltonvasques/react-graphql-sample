@@ -28,7 +28,7 @@ import { storage } from '../store/Storage';
 // Redux
 import { store } from '../store/Store';
 import { RequestsQuery } from '../constants/Queries';
-import ReportRequestsButton from '../web/components/ReportRequestsButton';
+import { ReportRequestsButtonWithData } from '../web/components/ReportRequestsButton';
 
 class RequestsScene extends Component {
   constructor(props) { 
@@ -97,7 +97,7 @@ class RequestsScene extends Component {
     if (Platform.OS != 'web') return null;
     if (!this.state.user.agent) return null;
     return (
-      <ReportRequestsButton requests={this.state.requests} />
+      <ReportRequestsButtonWithData />
     )
   }
 
@@ -110,7 +110,6 @@ class RequestsScene extends Component {
   onNewRequest() {
     this.props.navigator.push({ screen: 'NewRequestScene' });
   }
-
 }
 
 export const RequestsSceneWithData = graphql(RequestsQuery, {
