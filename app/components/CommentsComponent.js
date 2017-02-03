@@ -98,9 +98,8 @@ export const CommentsComponentWithData = graphql(RequestQuery, {
     return props; 
   },
   options(props) {
-    console.log("OPTIONS");
-    console.log(props);
     return {
+      pollInterval: 5000,
       variables: { id: props.request.id },
       reducer: (previousResult, action, variables) => {
         if (action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'addComment'){
@@ -111,7 +110,6 @@ export const CommentsComponentWithData = graphql(RequestQuery, {
               },
             },
           });
-          console.log(result);
           return result;
         }
         return previousResult;
