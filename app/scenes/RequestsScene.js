@@ -12,7 +12,7 @@ import {
   ListView,
   TouchableHighlight,
   Button,
-  AsyncStorage
+  Platform
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
@@ -28,6 +28,7 @@ import { storage } from '../store/Storage';
 // Redux
 import { store } from '../store/Store';
 import { RequestsQuery } from '../constants/Queries';
+import ReportRequestsButton from '../web/components/ReportRequestsButton';
 
 class RequestsScene extends Component {
   constructor(props) { 
@@ -35,15 +36,12 @@ class RequestsScene extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
       dataSource: ds.cloneWithRows([]),
+      requests: [],
       user: { customer: false, agent: false, admin: false }
     };
   }
 
   componentDidMount() {
-    this.restoreUser();
-  }
-
-  restoreUser() {
     storage.getItem('user', (user) => this.setState({ user: JSON.parse(user)}));
   }
 
@@ -53,6 +51,7 @@ class RequestsScene extends Component {
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.data.requests),
+      requests: newProps.data.requests
     })
   }
 
@@ -77,6 +76,7 @@ class RequestsScene extends Component {
           }
           enableEmptySections={true}
           />
+          {this.renderReportButton()}
           {this.renderNewRequestButton()}
       </View>
     );
@@ -93,6 +93,14 @@ class RequestsScene extends Component {
         )
   }
 
+  renderReportButton() {
+    if (Platform.OS != 'web') return null;
+    if (!this.state.user.agent) return null;
+    return (
+      <ReportRequestsButton requests={this.state.requests} />
+    )
+  }
+
 
   // Callbacks
   onListItemClick(rowData) {
@@ -102,6 +110,7 @@ class RequestsScene extends Component {
   onNewRequest() {
     this.props.navigator.push({ screen: 'NewRequestScene' });
   }
+
 }
 
 export const RequestsSceneWithData = graphql(RequestsQuery, {
