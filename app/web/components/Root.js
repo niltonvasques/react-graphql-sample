@@ -12,6 +12,7 @@ import { SignupSceneWithData } from '../../scenes/SignupScene';
 import { RequestsSceneWithData } from '../../scenes/RequestsScene';
 import { NewRequestSceneWithData } from '../../scenes/NewRequestScene';
 import { RequestSceneWithData } from '../../scenes/RequestScene';
+import { UsersSceneWithData } from '../../scenes/UsersScene';
 
 // Redux
 import { store } from '../../store/Store';
@@ -41,6 +42,9 @@ class Navigator {
         break;
       case "NewRequestScene":
         hashHistory.push('/requests/new');
+        break;
+      case "UsersScene":
+        hashHistory.push('/admin/users');
         break;
       case "AdminScene":
         hashHistory.push('/admin');
@@ -75,6 +79,8 @@ export default class Root extends Component {
             component={() => (<NewRequestSceneWithData navigator={this.state.navigator}/>)} />
           <Route path="/admin" 
             component={() => (<AdminScene navigator={this.state.navigator}/>)} />
+          <Route path="/admin/users" 
+            component={() => (<UsersSceneWithData navigator={this.state.navigator}/>)} />
         </Router>
     );
   }
