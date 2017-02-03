@@ -12,6 +12,8 @@ import {
   ListView,
   TouchableHighlight,
   Button,
+  TextInput,
+  Picker,
   Platform
 } from 'react-native';
 
@@ -30,6 +32,7 @@ import { store } from '../store/Store';
 import { UsersQuery } from '../constants/Queries';
 
 import { ButtonRemoveUserWithData } from '../components/ButtonRemoveUser';
+import { NewUserComponentWithData } from '../components/NewUserComponent';
 
 class UsersScene extends Component {
   constructor(props) { 
@@ -38,7 +41,8 @@ class UsersScene extends Component {
     this.state = {
       dataSource: ds.cloneWithRows([]),
       users: [],
-      user: { customer: false, agent: false, admin: false }
+      user: { customer: false, agent: false, admin: false },
+      newUser: { name: '', email: '', password: '', role: 'customer' }
     };
   }
 
@@ -70,51 +74,32 @@ class UsersScene extends Component {
           Users
         </Text>
 
+        <NewUserComponentWithData />
+
         <ListView dataSource={this.state.dataSource}
           renderRow={(rowData) => (
-             <View style={{flexDirection: 'row', flex: 1}} >
-                 <View style={{flexDirection: 'row', flex: 0.7}} >
-               <TouchableHighlight >
-                 <View style={{flexDirection: 'row'}} >
-                   <Text style={styles.users}>{rowData.id}</Text>
-                   <Text style={styles.users}>{rowData.name}</Text>
-                   <Text style={styles.users}>{rowData.email}</Text>
-                   <Text style={styles.users}>{this.getRole(rowData)}</Text>
-                 </View>
-               </TouchableHighlight>
-                 </View>
-               <View style={{flex: 0.3, flexDirection: 'row', justifyContent: 'flex-end'}} >
-                 {this.renderRemoveButton(rowData)}
+           <View style={{flexDirection: 'row', flex: 1}} >
+               <View style={{flexDirection: 'row', flex: 0.7}} >
+             <TouchableHighlight >
+               <View style={{flexDirection: 'row'}} >
+                 <Text style={styles.users}>{rowData.id}</Text>
+                 <Text style={styles.users}>{rowData.name}</Text>
+                 <Text style={styles.users}>{rowData.email}</Text>
+                 <Text style={styles.users}>{this.getRole(rowData)}</Text>
                </View>
+             </TouchableHighlight>
+               </View>
+             <View style={{flex: 0.3, flexDirection: 'row', justifyContent: 'flex-end'}} >
+               <ButtonRemoveUserWithData user={rowData} />
              </View>
-            )
-          }
-          enableEmptySections={true}
-          />
-          {this.renderNewUserButton()}
+           </View>
+          )
+        }
+        enableEmptySections={true}
+        />
       </View>
     );
   }
-
-  renderNewUserButton() {
-    console.log(this.state);
-    if (!this.state.user.admin) return null;
-    return (
-        <Button 
-          color="lightgreen"
-          onPress={this.onNewUser.bind(this)} 
-          title="Create new user" accessibilityLabel="Create a new user" />
-        )
-  }
-
-  renderRemoveButton(rowData) {
-    if (Platform.OS != 'web') return null;
-    if (!this.state.user.admin) return null;
-    return (
-        <ButtonRemoveUserWithData user={rowData} />
-    )
-  }
-
 
   onNewUser() {
     this.props.navigator.push({ screen: 'NewUserScene' });

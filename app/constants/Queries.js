@@ -30,28 +30,32 @@ query Users {
 export const RegisterAdminMutation = gql`
 mutation RegisterAdmin($input: RegisterAdminInput!) {
   registerAdmin(input: $input) {
-    id,
-    name,
-    email,
-    customer,
-    agent,
-    admin,
-    registerd_at,
-    updated_at,
+    agent {
+      id,
+      name,
+      email,
+      customer,
+      agent,
+      admin,
+      created_at,
+      updated_at,
+    }
   }
 }`;
 
 export const RegisterAgentMutation = gql`
 mutation RegisterAgent($input: RegisterAgentInput!) {
-  createAgent(input: $input) {
-    id,
-    name,
-    email,
-    customer,
-    agent,
-    admin,
-    created_at,
-    updated_at,
+  registerAgent(input: $input) {
+    agent {
+      id,
+      name,
+      email,
+      customer,
+      agent,
+      admin,
+      created_at,
+      updated_at,
+    }
   }
 }`;
 
