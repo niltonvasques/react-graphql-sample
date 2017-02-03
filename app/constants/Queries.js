@@ -1,7 +1,18 @@
 import gql from 'graphql-tag';
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-export const RequestsQuery = gql`query Requests { requests { id, title, content, open } }`;
+export const RequestsQuery = gql`
+query Requests {
+  requests {
+    id,
+    title,
+    content,
+    open,
+    created_at,
+    updated_at,
+    user { name }
+  }
+}`;
 
 export const RequestQuery = gql`query RequestQuery($id: ID!) {
   request(id: $id) {
