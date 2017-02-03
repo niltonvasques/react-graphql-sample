@@ -11,14 +11,14 @@ import {
   View,
   Image,
   Button,
-  Alert,
   TextInput
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-
 import update from 'immutability-helper';
+
+import { Popup } from '../components/Popup';
 
 export default class NewRequestScene extends Component {
   constructor() {
@@ -74,7 +74,7 @@ export default class NewRequestScene extends Component {
       this.props.navigator.push({ screen: 'RequestsScene' });
       console.log('got data', data);
     }).catch((error) => {
-      Alert.alert("Request not created!");
+      Popup.show("Request not created!");
       console.log('there was an error sending the query', error);
     });
   }

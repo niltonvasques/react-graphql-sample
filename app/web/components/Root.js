@@ -1,6 +1,5 @@
 // React
 import React, { Component } from 'react';
-import { Alert, Text } from 'react-native';
 
 // Router
 import { Router, Route, Link, hashHistory } from 'react-router'
@@ -15,6 +14,9 @@ import { RequestSceneWithData } from '../../scenes/RequestScene';
 
 // Redux
 import { store } from '../../store/Store';
+const state = {
+  request: null
+};
 
 class Navigator {
   push(obj) {
@@ -30,13 +32,14 @@ class Navigator {
         hashHistory.push('/signup');
         break;
       case "RequestsScene":
-        hashHistory.push('/');
+        hashHistory.push('/requests');
         break;
       case "RequestScene":
-        hashHistory.push('/');
+        state.request = obj.data;
+        hashHistory.push(`/request/${obj.data.id}`);
         break;
       case "NewRequestScene":
-        hashHistory.push('/');
+        hashHistory.push('/requests/new');
         break;
     }
   }
@@ -55,8 +58,17 @@ export default class Root extends Component {
         <Router history={hashHistory}>
           <Route path="/" component={() => (<MainScene navigator={this.state.navigator}/>)}>
           </Route>
-          <Route path="/signin" component={SigninSceneWithData}/>
-          <Route path="/signup" component={SignupSceneWithData}/>
+          <Route path="/signin" 
+            component={() => (<SigninSceneWithData navigator={this.state.navigator}/>)}/>
+          <Route path="/signup" 
+            component={() => (<SignupSceneWithData navigator={this.state.navigator}/>)}/>
+          <Route path="/requests" 
+            component={() => (<RequestsSceneWithData navigator={this.state.navigator}/>)} />
+          <Route path="/request/:id" 
+            component={() => (<RequestSceneWithData navigator={this.state.navigator}
+                request={state.request}/>)}/>
+          <Route path="/requests/new" 
+            component={() => (<NewRequestSceneWithData navigator={this.state.navigator}/>)} />
         </Router>
     );
   }

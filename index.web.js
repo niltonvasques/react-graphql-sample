@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { AppRegistry } from 'react-native';
 
 // Apollo
 import { ApolloProvider } from 'react-apollo';
@@ -17,7 +11,6 @@ import Root from './app/web/components/Root';
 class ReactNativeWeb extends Component {
   constructor() {
     super();
-    alert(Platform.OS);
   }
   render() {
     return (

@@ -10,7 +10,6 @@ import {
   Text,
   View,
   ListView,
-  Alert,
   TouchableHighlight,
   Button,
   AsyncStorage
@@ -23,27 +22,28 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
+import { storage } from '../store/Storage';
+
 // Redux
 import { store } from '../store/Store';
-
 import { RequestsQuery } from '../constants/Queries';
 
 class RequestsScene extends Component {
   constructor(props) { 
     super(props); 
-    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
       dataSource: ds.cloneWithRows([]),
       user: { customer: false, agent: false, admin: false }
     };
-    this.restoreUser();
-    console.log("CONSTRUCTOR");
-    console.log(store.getState().apollo.data);
   }
 
-  async restoreUser() {
-    var user = await AsyncStorage.getItem('user');
-    this.setState({ user: JSON.parse(user)});
+  componentDidMount() {
+    this.restoreUser();
+  }
+
+  restoreUser() {
+    storage.getItem('user', (user) => this.setState({ user: JSON.parse(user)}));
   }
 
   componentWillReceiveProps(newProps) {
@@ -82,6 +82,7 @@ class RequestsScene extends Component {
   }
 
   renderNewRequestButton() {
+    console.log(this.state);
     if (!this.state.user.customer) return null;
     return (
         <Button 

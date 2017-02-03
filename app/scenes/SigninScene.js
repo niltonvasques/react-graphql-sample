@@ -11,16 +11,15 @@ import {
   View,
   Image,
   Button,
-  Alert,
-  TextInput,
-  AsyncStorage
+  TextInput
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
 
-import Logo from '../components/Logo';
-
+import { storage } from '../store/Storage';
 import { SignInMutation, RequestsQuery } from '../constants/Queries';
+import Logo from '../components/Logo';
+import { Popup } from '../components/Popup';
 
 export default class SigninScene extends Component {
   constructor() {
@@ -29,6 +28,11 @@ export default class SigninScene extends Component {
       email: "test3@dev.com",
       password: "123456",
     }
+  }
+
+  componentDidMount() {
+    storage.setItem('user', null);
+    storage.setItem('token', null);
   }
 
   render() {
@@ -66,15 +70,11 @@ export default class SigninScene extends Component {
       }],
     }).then(({ data }) => {
       console.log('got data', data);
-      try {
-        AsyncStorage.setItem("token", data.signIn.data.token);
-        AsyncStorage.setItem("user", JSON.stringify(data.signIn.data.user));
-        this.props.navigator.push({ screen: 'RequestsScene' });
-      } catch (error) {
-        console.log('error', error);
-      }
+      storage.setItem("token", data.signIn.data.token);
+      storage.setItem("user", JSON.stringify(data.signIn.data.user));
+      this.props.navigator.push({ screen: 'RequestsScene' });
     }).catch((error) => {
-      Alert.alert("Login failed!");
+      Popup.show("Login failed!");
       console.log('there was an error sending the query', error);
     });
   }

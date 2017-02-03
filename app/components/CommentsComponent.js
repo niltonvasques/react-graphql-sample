@@ -11,7 +11,6 @@ import {
   View,
   ListView,
   TouchableHighlight,
-  Alert,
 } from 'react-native';
 
 import { AddCommentComponentWithData } from './AddCommentComponent';
@@ -29,7 +28,7 @@ import update from 'immutability-helper';
 export default class CommentsComponent extends Component {
   constructor(props) { 
     super(props); 
-    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
       dataSource: ds.cloneWithRows([]),
       request: props.request,

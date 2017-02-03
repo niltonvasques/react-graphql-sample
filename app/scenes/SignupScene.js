@@ -11,7 +11,6 @@ import {
   View,
   Image,
   Button,
-  Alert,
   TextInput
 } from 'react-native';
 
@@ -19,6 +18,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Logo from '../components/Logo';
+import { Popup } from '../components/Popup';
+import { SignupMutation } from '../constants/Queries';
 
 export default class SignupScene extends Component {
   constructor() {
@@ -71,10 +72,10 @@ export default class SignupScene extends Component {
         password: this.state.password,
         password_confirmation: this.state.password }
     }}).then(({ data }) => {
-      this.props.navigator.push({ screen: 'RequestsScene' });
+      this.props.navigator.push({ screen: 'MainScene' });
       console.log('got data', data);
     }).catch((error) => {
-      Alert.alert("Signup failed!");
+      Popup.show("Signup failed!");
       console.log('there was an error sending the query', error);
     });
   }
@@ -114,15 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mutation = gql`
-mutation registerUser($input: RegisterUserInput!) {
-  registerUser(input: $input) {
-    user {
-      id,
-      name,
-      email
-    }
-  }
-}`;
-
-export const SignupSceneWithData = graphql(mutation)(SignupScene);
+export const SignupSceneWithData = graphql(SignupMutation)(SignupScene);

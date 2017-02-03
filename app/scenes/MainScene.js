@@ -11,7 +11,6 @@ import {
   View,
   Image,
   Button,
-  Alert
 } from 'react-native';
 
 import Logo from '../components/Logo';

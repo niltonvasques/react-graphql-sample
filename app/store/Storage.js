@@ -15,7 +15,7 @@ class Storage {
     if (Platform.OS == 'android') {
       AsyncStorage.setItem(item, value);
     } else if (Platform.OS == 'web') {
-      localStorage.getItem(item, value);
+      localStorage.setItem(item, value);
     }
   }
 }

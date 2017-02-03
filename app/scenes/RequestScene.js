@@ -11,9 +11,7 @@ import {
   View,
   ListView,
   Button,
-  Alert,
-  TextInput,
-  AsyncStorage
+  TextInput
 } from 'react-native';
 
 import { graphql } from 'react-apollo';
@@ -23,12 +21,14 @@ import { typography } from 'react-native-material-design-styles';
 
 const typographyStyle = StyleSheet.create(typography);
 
+import { storage } from '../store/Storage';
 import { CommentsComponentWithData } from '../components/CommentsComponent';
+import { Popup } from '../components/Popup';
 
 class RequestScene extends Component {
   constructor(props) { 
     super(props); 
-    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
     this.state = {
       dataSource: ds.cloneWithRows([
         "Hello there", "There is a problem here"
@@ -36,12 +36,14 @@ class RequestScene extends Component {
       request: props.request,
       user: { customer: false, agent: false, admin: false }
     };
+  }
+
+  componentDidMount() {
     this.restoreUser();
   }
 
-  async restoreUser() {
-    var user = await AsyncStorage.getItem('user');
-    this.setState({ user: JSON.parse(user)});
+  restoreUser() {
+    storage.getItem('user', (user) => this.setState({ user: JSON.parse(user)}));
   }
 
   componentWillReceiveProps(newProps) {
@@ -91,7 +93,7 @@ class RequestScene extends Component {
         request: data.closeRequest.request
       });
     }).catch((error) => {
-      Alert.alert("Close request failed!");
+      Popup.show("Close request failed!");
       console.log('there was an error sending the query', error);
     });
   }

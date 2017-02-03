@@ -10,7 +10,7 @@ import { AppRegistry, Navigator, AsyncStorage } from 'react-native';
 
 // Apollo
 import { ApolloProvider } from 'react-apollo';
-import { client } from './app/store/Store';
+import { client } from './app/store/Client';
 
 // Scenes
 import Root from './app/native/components/Root';

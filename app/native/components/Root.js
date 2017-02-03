@@ -1,6 +1,6 @@
 // React
 import React, { Component } from 'react';
-import { Alert, Navigator, Text, BackAndroid } from 'react-native';
+import { Navigator, Text, BackAndroid } from 'react-native';
 
 // Scenes
 import MainScene from '../../scenes/MainScene';
