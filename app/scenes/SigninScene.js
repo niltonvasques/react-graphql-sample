@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import {
   StyleSheet,
   Text,
@@ -25,8 +26,8 @@ export default class SigninScene extends Component {
   constructor() {
     super();
     this.state = {
-      email: "test3@dev.com",
-      password: "123456",
+      email: "",
+      password: "",
     }
   }
 
@@ -72,7 +73,7 @@ export default class SigninScene extends Component {
       console.log('got data', data);
       storage.setItem("token", data.signIn.data.token);
       storage.setItem("user", JSON.stringify(data.signIn.data.user));
-      if (data.signIn.data.user.admin) {
+      if (data.signIn.data.user.admin && Platform.OS == 'web') {
         this.props.navigator.push({ screen: 'AdminScene' });
       } else {
         this.props.navigator.push({ screen: 'RequestsScene' });
