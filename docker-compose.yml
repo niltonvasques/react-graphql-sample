@@ -1,0 +1,5 @@
+app:
+  build: .
+  ports:
+    - '80:8000'
+  command: npm run prod

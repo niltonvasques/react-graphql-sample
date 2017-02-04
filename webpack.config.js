@@ -21,4 +21,9 @@ module.exports = {
       'react-native': 'react-native-web',
     },
   },
+  output: {
+    filename: 'bundle.js',
+    library: 'require',
+    libraryTarget: 'this'
+  },
 };
