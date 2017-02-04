@@ -1,5 +1,5 @@
 app:
   build: .
   ports:
-    - '8080:8080'
-  command: npm run web
+    - '80:8000'
+  command: npm run prod

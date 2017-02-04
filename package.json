@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "web": "node_modules/.bin/webpack-dev-server --inline",
+    "prod": "python -m 'SimpleHTTPServer'",
     "test": "jest"
   },
   "dependencies": {
