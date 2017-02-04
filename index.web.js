@@ -21,6 +21,6 @@ class ReactNativeWeb extends Component {
   }
 }
 
-AppRegistry.registerComponent('ReactNativeWeb', () => ReactNativeWeb);
-AppRegistry.runApplication('ReactNativeWeb', { rootTag: document.getElementById('react-app') });
+AppRegistry.registerComponent('TicketSystemWeb', () => ReactNativeWeb);
+AppRegistry.runApplication('TicketSystemWeb', { rootTag: document.getElementById('react-app') });
 

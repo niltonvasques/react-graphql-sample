@@ -78,8 +78,8 @@ export default class SigninScene extends Component {
         this.props.navigator.push({ screen: 'RequestsScene' });
       }
     }).catch((error) => {
-      Popup.show("Login failed!");
       console.log('there was an error sending the query', error);
+      Popup.show("Login failed!");
     });
   }
 }

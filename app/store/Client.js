@@ -7,9 +7,12 @@ import ApolloClient, { createNetworkInterface, toIdValue } from 'apollo-client';
 import { storage } from './Storage';
 import { Platform } from 'react-native';
 
+
+
 const setupApollo = () => {
-  var uri = 'http://10.0.2.2:3000/graphql';
-  if (Platform.OS == 'web') uri = 'http://localhost:3000/graphql';
+  //var uri = 'http://10.0.2.2:3000/graphql';
+  //if (Platform.OS == 'web') uri = 'http://172.17.0.3/graphql';
+  var uri = 'http://api.niltonvasques.com.br/graphql';
 
   const networkInterface = createNetworkInterface({ uri: uri });
 
