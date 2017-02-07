@@ -31,7 +31,7 @@ export default class MainScene extends Component {
         </View>
 
         <Text style={styles.welcome}>
-          Welcome to CrossOver Ticket System!
+          Welcome to an awesome Ticket System!
         </Text>
 
         <Text style={styles.instructions}>
