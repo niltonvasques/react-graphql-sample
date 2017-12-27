@@ -1,7 +1,7 @@
 # Rails Graphql Sample 
 ## Ticket System Client
 
-### [Server Project](https://github.com/niltonvasques/react-graphql-sample)
+### [Server Project](https://github.com/niltonvasques/rails-graphql-sample)
 
 ## Architecture
 
